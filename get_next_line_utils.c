@@ -11,6 +11,8 @@
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include <stdlib.h>
+#include <unistd.h>
 
 size_t	ft_strlen(const char *s)
 {
@@ -20,26 +22,6 @@ size_t	ft_strlen(const char *s)
 	while (s[i])
 		i++;
 	return (i);
-}
-
-void	ft_bzero(void *s, size_t n)
-{
-	unsigned char	*str;
-
-	str = (unsigned char *)s;
-	while (n--)
-		*str++ = '\0';
-}
-
-void	*ft_calloc(size_t count, size_t size)
-{
-	char	*s;
-
-	s = malloc(count * size);
-	if (!s)
-		return (NULL);
-	ft_bzero(s, count * size);
-	return (s);
 }
 
 size_t	ft_strlcpy(char *dst, const char *src, size_t size)
@@ -76,7 +58,6 @@ size_t	ft_strlcat(char *dst, const char *src, size_t size)
 	dst[j] = '\0';
 	return (ft_strlen(dst) + ft_strlen(&src[i]));
 }
-
 
 char	*ft_strjoin(char const *s1, char const *s2)
 {
