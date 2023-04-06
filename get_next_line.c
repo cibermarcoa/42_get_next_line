@@ -12,148 +12,107 @@
 
 #include "get_next_line.h"
 
-
-size_t	ft_strlen(const char *s)
+char	*ft_buffertoline(char *buffer)
 {
+	char	*line;
 	size_t	i;
 
-	i = 0;
-	while (s[i])
-		i++;
-	return (i);
-}
-
-size_t	ft_strlcpy(char *dst, const char *src, size_t size)
-{
-	size_t	i;
-
-	i = 0;
-	if (size == 0)
-		return (ft_strlen(src));
-	while (src[i] != '\0' && i < size - 1)
-	{
-		dst[i] = src[i];
-		i++;
-	}
-	dst[i] = '\0';
-	return (ft_strlen(src));
-}
-
-size_t	ft_strlcat(char *dst, const char *src, size_t size)
-{
-	size_t	i;
-	size_t	j;
-
-	if (size <= ft_strlen(dst))
-		return (ft_strlen(src) + size);
-	i = 0;
-	j = ft_strlen(dst);
-	while (src[i] != '\0' && j < size - 1)
-	{
-		dst[j] = src[i];
-		i++;
-		j++;
-	}
-	dst[j] = '\0';
-	return (ft_strlen(dst) + ft_strlen(&src[i]));
-}
-
-char	*ft_strjoin(char const *s1, char const *s2)
-{
-	char	*str;
-
-	str = (char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
-	if (!str)
-		return (NULL);
-	ft_strlcpy(str, s1, ft_strlen(s1) + 1);
-	ft_strlcat(str, s2, ft_strlen(s1) + ft_strlen(s2) + 1);
-	return (str);
-}
-
-
-
-
-
-
-
-
-
-
-char	*ft_get_line(char *save)
-{
-	int		i;
-	char	*s;
-
-	i = 0;
-	if (!save[i])
-		return (NULL);
-	while (save[i] && save[i] != '\n')
-		i++;
-	s = (char *)malloc(sizeof(char) * (i + 2));
-	if (!s)
+	if (!buffer[0])
 		return (NULL);
 	i = 0;
-	while (save[i] && save[i] != '\n')
+	while (buffer[i] && buffer[i] != '\n')
+		i++;
+	line = (char *)malloc(sizeof(char) * (i + 2));
+	if (!line)
+		return (NULL);
+	i = 0;
+	while (buffer[i] && buffer[i] != '\n')
 	{
-		s[i] = save[i];
+		line[i] = buffer[i];
 		i++;
 	}
-	if (save[i] == '\n')
-	{
-		s[i] = save[i];
-		i++;
-	}
-	s[i] = '\0';
-	return (s);
+	if (buffer[i] == '\n')
+		line[i++] = '\n';
+	line[i] = '\0';
+	return (line);
 }
 /*
-char	*ft_save(char *save)
+char	*ft_buffer(char *buffer)
 {
 	int		i;
 	int		c;
 	char	*s;
 
 	i = 0;
-	while (save[i] && save[i] != '\n')
+	while (buffer[i] && buffer[i] != '\n')
 		i++;
-	if (!save[i])
+	if (!buffer[i])
 	{
-		free(save);
+		free(buffer);
 		return (NULL);
 	}
-	s = (char *)malloc(sizeof(char) * (ft_strlen(save) - i + 1));
+	s = (char *)malloc(sizeof(char) * (ft_strlen(buffer) - i + 1));
 	if (!s)
 		return (NULL);
 	i++;
 	c = 0;
-	while (save[i])
-		s[c++] = save[i++];
+	while (buffer[i])
+		s[c++] = buffer[i++];
 	s[c] = '\0';
-	free(save);
+	free(buffer);
 	return (s);
 }
 */
+
+char	*ft_next(char *buffer)
+{
+	int		i;
+	int		j;
+	char	*line;
+
+	i = 0;
+	// find len of first line
+	while (buffer[i] && buffer[i] != '\n')
+		i++;
+	// if eol == \0 return NULL
+	if (!buffer[i])
+	{
+		free(buffer);
+		return (NULL);
+	}
+	// len of file - len of firstline + 1
+	line = ft_calloc((ft_strlen(buffer) - i + 1), sizeof(char));
+	i++;
+	j = 0;
+	// line == buffer
+	while (buffer[i])
+		line[j++] = buffer[i++];
+	line[j] = '\0';
+	free(buffer);
+	return (line);
+}
 char	*ft_setbuffer(int fd, char *buffer)
 {
 	char	*aux_buffer;
 	ssize_t	read_value;
 
+	if (!buffer)
+		buffer = (char *)malloc(sizeof(char));
 	aux_buffer = (char *)malloc(sizeof(char) * (BUFFER_SIZE + 1));
-	if (!aux_buffer)
+	if (!buffer || !aux_buffer)
 		return (0);
 	read_value = 1;
 	while (read_value != 0)
 	{
-		read_value = read(fd, aux_buffer, BUFFER_SIZE);
+		read_value = read(fd, aux_buffer, BUFFER_SIZE);	
 		if (read_value == -1)
 		{
 			free(aux_buffer);
 			return (0);
 		}
 		aux_buffer[read_value] = '\0';
-		buffer = ft_strjoin(aux_buffer, aux_buffer);
+		buffer = ft_strjoin(buffer, aux_buffer);
 	}
-	
 	free(aux_buffer);
 	return (buffer);
 }
@@ -169,8 +128,7 @@ char	*get_next_line(int fd)
 	buffer = ft_setbuffer(fd, buffer);
 	if (!buffer)
 		return (0);
-	line = NULL;
-	//line = ft_get_line(buffer);
-	//buffer = ft_save(buffer);
+	line = ft_buffertoline(buffer);
+	buffer = ft_next(buffer);
 	return (line);
 }

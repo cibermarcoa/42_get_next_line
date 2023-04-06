@@ -18,8 +18,9 @@ int	main(int argc, char **argv)
 		printf("Error: failed to open file '%s'\n", argv[1]);
 		return (1);
 	}
-    line = get_next_line(fd);
-		//printf("%s\n", line);
+	line = get_next_line(fd);
+	printf("%s", line);
+
 	close(fd);
 	return (0);
 }
