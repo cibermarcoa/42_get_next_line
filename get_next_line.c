@@ -91,8 +91,12 @@ char	*get_next_line(int fd)
 	static char	*buffer;
 	char		*line;
 
-	if (fd < 0 || BUFFER_SIZE <= 0)
+	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) < 0)
+	{
+		free (buffer);
+		buffer = NULL;
 		return (0);
+	}
 	buffer = ft_set_buffer(fd, buffer);
 	if (!buffer)
 		return (0);
