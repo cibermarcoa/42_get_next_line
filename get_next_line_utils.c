@@ -61,4 +61,3 @@ char	*ft_strjoin(char *s1, char const *s2)
 	free(s1);
 	return (str);
 }
-

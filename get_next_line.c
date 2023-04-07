@@ -23,7 +23,7 @@ char	*ft_set_buffer(int fd, char *buffer)
 	read_value = 1;
 	while (read_value != 0 && !ft_strchr(buffer, '\n'))
 	{
-		read_value = read(fd, aux_buffer, BUFFER_SIZE);	
+		read_value = read(fd, aux_buffer, BUFFER_SIZE);
 		if (read_value == -1)
 		{
 			free(aux_buffer);
