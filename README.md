@@ -25,8 +25,8 @@ Here is a `main.c` example of how to use the get_next_line function:
 
 int	main(void)
 {
-	int fd;
-	char *line;
+	int	fd;
+	char	*line;
 
 	fd = open("file_to_read.txt", O_RDONLY);
 	line = get_next_line(fd);
