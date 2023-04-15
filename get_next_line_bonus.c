@@ -6,13 +6,13 @@
 /*   By: mdiaz-ca <mdiaz-ca@student.42madrid.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/04/07 11:09:22 by mdiaz-ca          #+#    #+#             */
-/*   Updated: 2023/04/08 19:58:19 by mdiaz-ca         ###   ########.fr       */
+/*   Updated: 2023/04/15 18:00:02 by mdiaz-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line_bonus.h"
 
-char	*ft_set_buffer(int fd, char *buffer)
+static char	*ft_set_buffer(int fd, char *buffer)
 {
 	char	*aux_buffer;
 	ssize_t	read_value;
@@ -36,7 +36,7 @@ char	*ft_set_buffer(int fd, char *buffer)
 	return (buffer);
 }
 
-char	*ft_buffer_to_line(char *buffer)
+static char	*ft_buffer_to_line(char *buffer)
 {
 	char	*line;
 	size_t	i;
@@ -88,7 +88,7 @@ char	*ft_next_line(char *buffer)
 
 char	*get_next_line(int fd)
 {
-	static char	*buffer[5000];
+	static char	*buffer[1024];
 	char		*line;
 
 	if (fd < 0 || BUFFER_SIZE <= 0 || read(fd, 0, 0) == -1)

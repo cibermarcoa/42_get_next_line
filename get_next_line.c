@@ -6,13 +6,13 @@
 /*   By: mdiaz-ca <mdiaz-ca@student.42madrid.fr>    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/28 19:52:27 by mdiaz-ca          #+#    #+#             */
-/*   Updated: 2023/03/28 19:58:19 by mdiaz-ca         ###   ########.fr       */
+/*   Updated: 2023/04/15 17:30:24 by mdiaz-ca         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*ft_set_buffer(int fd, char *buffer)
+static char	*ft_set_buffer(int fd, char *buffer)
 {
 	char	*aux_buffer;
 	ssize_t	read_value;
@@ -36,7 +36,7 @@ char	*ft_set_buffer(int fd, char *buffer)
 	return (buffer);
 }
 
-char	*ft_buffer_to_line(char *buffer)
+static char	*ft_buffer_to_line(char *buffer)
 {
 	char	*line;
 	size_t	i;
@@ -61,7 +61,7 @@ char	*ft_buffer_to_line(char *buffer)
 	return (line);
 }
 
-char	*ft_next_line(char *buffer)
+static char	*ft_next_line(char *buffer)
 {
 	char	*line;
 	size_t	i;
